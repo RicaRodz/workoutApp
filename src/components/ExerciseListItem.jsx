@@ -17,6 +17,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     gap: 5,
+    marginHorizontal: 2,
+
+    //shadow
+    shadowColor: '#000',
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius:1,
+
   },
 
   exerciseName: {
