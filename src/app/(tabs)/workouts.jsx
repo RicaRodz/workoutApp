@@ -6,8 +6,9 @@ import {
   FlatList,
   ActivityIndicator,
   Pressable,
+  ScrollView,
 } from "react-native";
-
+import { AntDesign } from '@expo/vector-icons';
 import ExerciseListItem from "../../components/ExerciseListItem";
 import { useQuery } from "@tanstack/react-query";
 import { gql } from "graphql-request";
@@ -25,72 +26,110 @@ const exercisesQuery = gql`
 
 export default function workouts() {
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Workouts</Text>
-      </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Dashbords</Text>
 
-      <View style={styles.workoutsInfoContainer}>
-
-        <View style={styles.Info}>
-            <View style={styles.cell} >
-                <Text style={styles.number} > 25 </Text>
-                <Text style={styles.text}> Workouts Completed </Text>
+      <View style={styles.infoContainer}>
+        <View style={styles.row}>
+          <View style={styles.cell}>
+            <View style={styles.info}>
+              <Text style={styles.bigNumber}> 25 </Text>
+              <Text style={styles.text}> workouts </Text>
+              <Text style={styles.text}> completed </Text>
             </View>
-            <View style={styles.cell} >
-                <Text style={styles.number} > 25 </Text>
-                <Text style={styles.text}> Workouts Completed </Text>
+          </View>
+          <View style={styles.cell}>
+            <View style={styles.info}>
+              <Text style={styles.bigNumber}>
+                {" "}
+                103k <Text style={styles.text}> kg </Text>
+              </Text>
+              <Text style={styles.text}> tonnage </Text>
+              <Text style={styles.text}> lifted </Text>
             </View>
-            <View style={styles.cell} >
-                <Text style={styles.number} > 25 </Text>
-                <Text style={styles.text}> Workouts Completed </Text>
+          </View>
+          <View style={styles.cell}>
+            <View style={styles.info}>
+              <Text style={styles.bigNumber}>
+                {" "}
+                70 <Text style={styles.text}> kg </Text>
+              </Text>
+              <Text style={styles.text}>current</Text>
+              <Text style={styles.text}>weight</Text>
             </View>
-          
+          </View>
         </View>
-
-        <Pressable>
-            <Text> Previous Workout</Text>
+        <Pressable style={styles.row}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              padding: 20,
+              borderColor: "gainsboro",
+              borderBottomWidth: 1,
+            }}
+          >
+            <View style={styles.prevWorkoutDate}>
+              <Text
+                style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+              >
+                22
+              </Text>
+              <Text style={{ color: "white", fontWeight: "300" }}>May</Text>
+            </View>
+            <View style={{flex: 1, flexDirection: 'column'}} >
+              <Text style={{color: "grey"}}>Previous Workout</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Quads & Deltoids</Text>
+              <Text >7 exercises completed</Text>
+            </View>
+            <View style={{marginTop: 24}}>
+              <AntDesign name="right" size={16} color="grey" />
+            </View>
+          </View>
         </Pressable>
       </View>
-
-      
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  titleContainer: {
-    paddingTop: 80,
+    marginTop: 64,
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
     padding: 20,
   },
-  workoutsInfoContainer: {
-    borderColor: "gainsboro",
-    borderWidth: 1,
-  },
-  Info: {
+  infoContainer: {},
+  row: {
+    flex: 1,
     flexDirection: "row",
-   
+    borderColor: "gainsboro",
   },
-  cell:{
+  cell: {
     flex: 1,
     flexDirection: "column",
     borderColor: "gainsboro",
     borderWidth: 1,
+    textAlign: "center",
   },
-  number: {
-    fontSize: 35,
-    fontWeight: "500",
+  info: {
+    margin: 10,
   },
-  text:{
+  bigNumber: {
+    fontSize: 30,
+  },
+  text: {
     fontSize: 15,
-    color: "grey",
+    color: "dimgray",
   },
 
+  prevWorkoutDate: {
+    backgroundColor: "royalblue",
+    marginHorizontal: 15,
+    padding: 10,
+    borderRadius: 2,
+  },
 });
