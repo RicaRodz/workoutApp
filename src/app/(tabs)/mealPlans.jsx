@@ -1,12 +1,21 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { View,  StyleSheet, Image, ScrollView } from 'react-native';
 
-const mealPlans = () => {
+const MealPlans = () => {
+
+  
   return (
-    <View>
-      <Text>mealPlans</Text>
+    <View style={styles.container}>
+      
+     
     </View>
-  )
-}
+  );
+};
 
-export default mealPlans
+
+const styles = StyleSheet.create({
+  
+  
+});
+
+export default MealPlans;
