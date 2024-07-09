@@ -41,7 +41,7 @@ const SetsList = () => {
             borderRadius: 5,
             overflow: "hidden",
         }}>
-          {item.reps} x {item.weight}
+          {item.exercise}: {item.reps} x {item.weight}
         </Text>
       )}
     />

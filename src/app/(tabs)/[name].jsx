@@ -1,13 +1,13 @@
 import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, Stack } from "expo-router";
-import exercises from "../../assets/data/exercises.json";
+import exercises from "../../../assets/data/exercises.json";
 import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { gql } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import client from "../graphqlClient";
-import NewSetInput from "../components/newSetInput";
-import SetsList from "../components/SetsList";
+import client from "../../graphqlClient";
+import NewSetInput from "../../components/newSetInput";
+import SetsList from "../../components/SetsList";
 
 
 const exerciseQuery = gql`
