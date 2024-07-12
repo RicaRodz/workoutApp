@@ -2,6 +2,9 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { gql } from "graphql-request";
+
+// const dashboardQuery = gql
 
 const DashboardInfo = () => {
   return (

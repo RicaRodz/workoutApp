@@ -1,12 +1,30 @@
-import { FontAwesome6 } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Octicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "royalblue", headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#FFD700",
+        tabBarInactiveTintColor: "#FFFFFF",
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#2A2A2A',
+          borderTopWidth: 0, 
+          elevation: 0, 
+          shadowOpacity: 0,
+        },
+        
+        
+        backgroundColor: "#1E1E1E"
+
+        
+      }}
+    >
       {/* <Tabs.Screen
         name="index"
         options={{
