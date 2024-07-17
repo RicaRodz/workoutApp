@@ -4,11 +4,18 @@ import { Octicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "royalblue", headerShown: false }}>
-      {/* <Tabs.Screen
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#FFD700",
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "#1E1E1E",
+        },
+      }}
+    >
+      <Tabs.Screen
         name="index"
         options={{
           title: "Home",
