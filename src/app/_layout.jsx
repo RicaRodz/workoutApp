@@ -8,6 +8,8 @@ export default function RootLayout() {
     <QueryClientProvider client={client} >
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="user_workouts" options={{ headerShown: false }} />
+        
       </Stack>
     </QueryClientProvider>
   );
