@@ -36,7 +36,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Meals"
         options={{
-          title: "Meal Plan",
+          title: "Meals",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="utensils" size={24} color={color} />
           ),

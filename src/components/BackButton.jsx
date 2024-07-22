@@ -4,20 +4,17 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 
-
 const BackButton = () => {
   const navigation = useNavigation();
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        <Ionicons name="arrow-back-circle-sharp" size={24} color="#1E1E1E" />
-        <Text style={styles.backButtonTitle}>Back</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.backButton}
+    >
+      <Ionicons name="arrow-back-circle-sharp" size={24} color="#1E1E1E" />
+      <Text style={styles.backButtonTitle}>Back</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -31,9 +28,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   backButtonTitle: {
-    color: '#1E1E1E',
+    color: "#1E1E1E",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 10,
   },
 });
