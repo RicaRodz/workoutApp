@@ -1,157 +1,224 @@
-
-import { useLocalSearchParams } from 'expo-router';
-import { View, Text } from 'react-native';
+import React from "react";
+import { useLocalSearchParams } from "expo-router";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function WorkoutScreen() {
-  const { id, workoutData } = useLocalSearchParams();
-  console.log(id, workoutData);
+  const { workout, workoutData } = useLocalSearchParams();
+  const parsedWorkoutData = JSON.parse(workoutData);
+
   return (
-    <View>
-      <Text>Workout ID: {id}</Text>
-      <Text>Workout Name: {workoutData.workout_name}</Text>
-      {/* Display other workout details */}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <View style={styles.dropDownBar}>
+            <Text></Text>
+          </View>
+
+          <Text style={styles.title}>{parsedWorkoutData.workout_name}</Text>
+          <Text style={styles.subtitle}>Workout Details</Text>
+        </View>
+
+        <View style={styles.infoContainer}>
+          <InfoItem
+            icon="barbell-outline"
+            label="Total Exercises"
+            value={Object.keys(parsedWorkoutData.exercises).length}
+          />
+          <InfoItem
+            icon="repeat-outline"
+            label="Times Completed"
+            value={parsedWorkoutData.times_completed}
+          />
+          <InfoItem
+            icon="fitness-outline"
+            label="Total Tonnage"
+            value={`${parsedWorkoutData.tonnage} kg`}
+          />
+          <InfoItem
+            icon="calendar-outline"
+            label="Workout Days"
+            value={parsedWorkoutData.days.join(", ")}
+          />
+        </View>
+
+        <Text style={styles.sectionTitle}>Exercises</Text>
+        {Object.entries(parsedWorkoutData.exercises).map(
+          ([exerciseName, details], index) => (
+            <View key={index} style={styles.exerciseCard}>
+              <Text style={styles.exerciseName}>{exerciseName}</Text>
+              <View style={styles.exerciseDetails}>
+                <ExerciseDetail
+                  icon="repeat"
+                  label="Sets"
+                  value={details.sets}
+                />
+                <ExerciseDetail icon="sync" label="Reps" value={details.reps} />
+                <ExerciseDetail
+                  icon="barbell"
+                  label="Weight"
+                  value={`${details.weight} kg`}
+                />
+              </View>
+            </View>
+          )
+        )}
+
+        <TouchableOpacity style={styles.addExerciseButton}>
+          <FontAwesome6 name="add" size={24} color="black" />
+          <Text style={styles.addExerciseButtonText}>add exercise</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+      <TouchableOpacity style={styles.startButton}>
+        <Text style={styles.startButtonText}>Start Workout</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 
+const InfoItem = ({ icon, label, value }) => (
+  <View style={styles.infoItem}>
+    <Ionicons name={icon} size={24} color="#FFD700" />
+    <View>
+      <Text style={styles.infoLabel}>{label}</Text>
+      <Text style={styles.infoValue}>{value}</Text>
+    </View>
+  </View>
+);
 
+const ExerciseDetail = ({ icon, label, value }) => (
+  <View style={styles.exerciseDetailItem}>
+    <Ionicons name={icon} size={16} color="#FFD700" />
+    <Text style={styles.exerciseDetailText}>
+      {label}: {value}
+    </Text>
+  </View>
+);
 
-// // WorkoutDetailsModal.js
-// import React from "react";
-// import {
-//   Modal,
-//   View,
-//   Text,
-//   StyleSheet,
-//   TouchableOpacity,
-//   ScrollView,
-//   TouchableWithoutFeedback,
-// } from "react-native";
-// import { Ionicons } from "@expo/vector-icons";
-// import { SafeAreaView } from "react-native-safe-area-context";
-
-// const WorkoutScreen = ({ visible, workout, onClose }) => {
-//   return (
-//     <SafeAreaView
-//       animationType="slide"
-//       transparent={true}
-//       visible={visible}
-//       onRequestClose={onClose}
-//     >
-//       <ScrollView>
-//         <View style={styles.modalOverlay}>
-//           <View style={styles.modalContent}>
-//             <ScrollView>
-//               <Text style={styles.modalTitle}>{workout.workout_name}</Text>
-//               <View style={styles.infoContainer}>
-//                 <View style={styles.infoItem}>
-//                   <Ionicons name="repeat-outline" size={20} color="#FFD700" />
-//                   <Text style={styles.infoText}>
-//                     Completed {workout.times_completed} times
-//                   </Text>
-//                 </View>
-//                 <View style={styles.infoItem}>
-//                   <Ionicons name="barbell-outline" size={20} color="#FFD700" />
-//                   <Text style={styles.infoText}>
-//                     Total Tonnage: {workout.tonnage}
-//                   </Text>
-//                 </View>
-//                 <View style={styles.infoItem}>
-//                   <Ionicons name="calendar-outline" size={20} color="#FFD700" />
-//                   <Text style={styles.infoText}>{workout.days.join(", ")}</Text>
-//                 </View>
-//               </View>
-//               <Text style={styles.modalSubtitle}>Exercises:</Text>
-//               {Object.entries(workout.exercises).map(
-//                 ([exerciseName, details]) => (
-//                   <View key={exerciseName} style={styles.exerciseItem}>
-//                     <Ionicons
-//                       name="fitness-outline"
-//                       size={20}
-//                       color="#FFD700"
-//                     />
-//                     <Text style={styles.modalExercise}>{exerciseName}</Text>
-//                   </View>
-//                 )
-//               )}
-//             </ScrollView>
-//             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-//               <Text style={styles.closeButtonText}>Close</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   modalOverlay: {
-//     flex: 1,
-//     backgroundColor: "#1E1E1E",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   modalContent: {
-//     backgroundColor: "#1E1E1E",
-//     borderRadius: 20,
-//     padding: 20,
-//     width: "90%",
-//     maxHeight: "80%",
-//     borderWidth: 2,
-//     borderColor: "#FFD700",
-//   },
-//   modalTitle: {
-//     fontSize: 28,
-//     fontWeight: "bold",
-//     color: "#FFD700",
-//     marginBottom: 20,
-//     textAlign: "center",
-//   },
-//   infoContainer: {
-//     marginBottom: 20,
-//   },
-//   infoItem: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     marginBottom: 10,
-//   },
-//   infoText: {
-//     fontSize: 16,
-//     color: "#FFD700",
-//     marginLeft: 10,
-//   },
-//   modalSubtitle: {
-//     fontSize: 22,
-//     fontWeight: "bold",
-//     color: "#FFD700",
-//     marginTop: 10,
-//     marginBottom: 15,
-//   },
-//   exerciseItem: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     marginBottom: 10,
-//   },
-//   modalExercise: {
-//     fontSize: 18,
-//     color: "#FFD700",
-//     marginLeft: 10,
-//   },
-//   closeButton: {
-//     backgroundColor: "#FFD700",
-//     padding: 12,
-//     borderRadius: 10,
-//     alignSelf: "center",
-//     marginTop: 20,
-//     width: "100%",
-//   },
-//   closeButtonText: {
-//     color: "#1E1E1E",
-//     fontWeight: "bold",
-//     fontSize: 16,
-//     textAlign: "center",
-//   },
-// });
-
-// export default WorkoutScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#1E1E1E",
+  },
+  scrollContent: {
+    padding: 20,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  dropDownBar: {
+    backgroundColor: "#A9A9A9",
+    marginBottom: 20,
+    marginHorizontal: 50,
+    borderRadius: 10,
+    height: 8,
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "#FFD700",
+    marginBottom: 5,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "#A9A9A9",
+  },
+  infoContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  infoItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "48%",
+    marginBottom: 15,
+  },
+  infoLabel: {
+    fontSize: 14,
+    color: "#A9A9A9",
+    marginLeft: 10,
+  },
+  infoValue: {
+    fontSize: 16,
+    color: "#FFFFFF",
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#FFD700",
+    marginBottom: 15,
+  },
+  exerciseCard: {
+    backgroundColor: "#2A2A2A",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+  },
+  exerciseName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 10,
+  },
+  exerciseDetails: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  exerciseDetailItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  exerciseDetailText: {
+    color: "#FFD700",
+    marginLeft: 5,
+    fontSize: 14,
+  },
+  startBtn: {
+    backgroundColor: "#FFD700",
+    borderRadius: 5,
+  },
+  addExerciseButton: {
+    backgroundColor: "#FFD700",
+    borderRadius: 25,
+    paddingVertical: 12,
+    alignItems: "center",
+    flexDirection: "row",
+    textAlign: "center"
+  },
+  addExerciseButtonText: {
+    color: "#1E1E1E",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  startButton: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#FFD700",
+    paddingTop: 10,
+    paddingBottom: 30, // Adjust this value for different devices if needed
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  startButtonText: {
+    color: "#1E1E1E",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

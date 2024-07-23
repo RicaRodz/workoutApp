@@ -6,15 +6,14 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
-  TouchableOpacity,
 } from "react-native";
-import { Link, useRouter } from "expo-router";
-import { gql } from 'graphql-tag';
+import { useRouter } from "expo-router";
+import { gql } from "graphql-tag";
 import { useQuery } from "@tanstack/react-query";
 import client from "../../graphqlClient";
 import BackButton from "../../components/BackButton";
 import WorkoutCard from "../../components/WorkoutCard";
-import { useNavigation } from "@react-navigation/native";
+
 
 
 const { height, width } = Dimensions.get("window");
@@ -36,29 +35,24 @@ const WorkoutsListQuery = gql`
 
 const WorkoutsList = () => {
 
-  const navigation = useNavigation();
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['workouts'],
-    queryFn: () => client.request(WorkoutsListQuery),
-  });
-
-  if (isLoading) {
-    return <ActivityIndicator size="large" color="#FFFFFF" />;
-  }
-
-  if (error) {
-    return <Text style={styles.errorText}>Failed to fetch data.</Text>;
-  }
-
-  const workouts = data.workouts.documents;
-
   const router = useRouter();
 
-  const handleWorkoutPress = (workout) => {
-    navigation.navigate('/user_workouts/[workout]', { id: workout._id, workoutData: workout });
-    // return router.push('/user_workouts/[workout]', { id: workout._id, workoutData: workout });
+  const handlePress = (workout) => {
+    router.push({
+      pathname: '/user_workouts/[workout]',
+      params: { workout: workout._id, workoutData: JSON.stringify(workout) }
+    });
   };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["workouts"],
+    queryFn: () => client.request(WorkoutsListQuery),
+  });
+  
+  if (isLoading) return <ActivityIndicator />;
+  if (error) return <Text>Error: {error.message}</Text>;
+  
+  const workouts = data.workouts.documents;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,18 +61,10 @@ const WorkoutsList = () => {
           <BackButton />
           <Text style={styles.headerTitle}>Workouts</Text>
         </View>
-        
+
         {workouts.map((workout) => (
-          <TouchableOpacity 
-            key={workout._id} 
-            onPress={() => handleWorkoutPress(workout)}
-          >
-            <WorkoutCard workout={workout} />
-          </TouchableOpacity>
+          <WorkoutCard key={workout._id} workout={workout} onPress={() => handlePress(workout)} />
         ))}
-
-        
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -114,7 +100,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#FFFFFF",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
   },
 });

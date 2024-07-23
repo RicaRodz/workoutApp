@@ -4,20 +4,13 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Make sure to install expo vector icons
 import { useRouter } from "expo-router";
 
-const WorkoutCard = ({ workout }) => {
+const WorkoutCard = ({ workout, onPress }) => {
   
-  const router = useRouter();
-
-  const handlePress = () => {
-    // setModalVisible(true);
-    return router.push('/user_workouts/[workout]]');
-  };
-
   const exerciseCount = Object.keys(workout.exercises).length;
 
   return (
     <>
-      <TouchableOpacity onPress={handlePress} style={styles.card}>
+      <TouchableOpacity onPress={onPress} style={styles.card}>
         <View style={styles.content}>
           <Text style={styles.title}>{workout.workout_name}</Text>
           <View style={styles.infoContainer}>
@@ -75,7 +68,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 15,
-    color: "#FFD700",
+    color: "#A9A9A9",
     marginLeft: 5,
   },
 });
