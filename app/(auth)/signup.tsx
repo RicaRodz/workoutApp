@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { supabase } from "../lib/supabase";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { supabase } from "../../lib/supabase";
 
 type Props = NativeStackScreenProps<any>;
 
@@ -10,17 +11,20 @@ export default function SignupScreen({ navigation }: Props) {
   const [password, setPassword] = useState("");
 
   const handleSignup = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: email,
+      password: password,
     });
 
     if (error) {
       Alert.alert("Signup Failed", error.message);
       return;
     }
-
-    console.log("Signup data:", data);
 
     const user = data?.user;
     if (!user) {
@@ -47,7 +51,7 @@ export default function SignupScreen({ navigation }: Props) {
         "Signup Success",
         "Check your email to confirm your account!"
       );
-      navigation.replace("Login");
+      navigation.replace("/login");
     }
   };
 
@@ -71,10 +75,8 @@ export default function SignupScreen({ navigation }: Props) {
       />
 
       <Button title="Create Account" onPress={handleSignup} />
-
-      <Text style={styles.link} onPress={() => navigation.replace("Login")}>
-        Already have an account? Log in
-      </Text>
+      <Button title="Alredy a user? Log in!" onPress={() => router.replace("/(auth)/login")} />
+    
     </View>
   );
 }
