@@ -1,12 +1,10 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Button, Input, Text, } from "@rneui/themed";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { supabase } from "../../lib/supabase";
 
-type Props = NativeStackScreenProps<any>;
-
-export default function LoginScreen({ navigation }: Props) {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,43 +27,31 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text h1 >Login</Text>
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Email"
         autoCapitalize="none"
         keyboardType="email-address"
         onChangeText={setEmail}
       />
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
       />
 
       <Button title="Log In" onPress={handleLogin} />
-      <Button title="Not a user? Sign Up!" onPress={() => router.replace("/(auth)/signup")} />
+      <Button
+        title="Not a user? Sign Up!"
+        onPress={() => router.replace("/(auth)/signup")}
+        type="clear"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 24,
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#999",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 16,
-  },
-  link: { color: "blue", marginTop: 20, textAlign: "center" },
+  container: { flex: 1, justifyContent: "center", padding: 20 }
 });
