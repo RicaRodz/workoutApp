@@ -6,7 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // Import our simple components
 import FitnessCard from '../../components/FitnessCard';
-import QuickActions from '../../components/QuickActions';
 import WeeklyCalendar from '../../components/WeeklyCalendar';
 
 // TypeScript interface for fitness data
@@ -102,7 +101,7 @@ export default function Home(){
         </View>
 
         {/* QUICK ACTIONS */}
-        <QuickActions />
+        {/* <QuickActions /> */}
 
       </ScrollView>
     </SafeAreaView>

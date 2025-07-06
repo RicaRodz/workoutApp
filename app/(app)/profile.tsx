@@ -1,85 +1,108 @@
-// app/(app)/profile.tsx
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Button, Text, useTheme, useThemeMode } from '@rneui/themed';
-import { router } from 'expo-router';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useAuth } from '../../providers/AuthProvider';
 
 export default function Profile() {
   const { user, signOut } = useAuth();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const { mode, setMode } = useThemeMode();
 
+  const toggleMode = () => {
+    setMode(mode === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <View style={[styles.container, {backgroundColor: theme.colors.background }]}>
-      <Text style={styles.title}>Profile</Text>
-      <Text style={styles.subtitle}>Email: {user?.email}</Text>
-      <Text style={styles.subtitle}>User ID: {user?.id}</Text>
-      
-      <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-        <Text style={styles.buttonText}>Go Back</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={[styles.button, styles.signOutButton]} onPress={signOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
+    <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background, paddingVertical: 30 }}>
+      <View style={styles.header}>
+        <MaterialIcons name="account-circle" size={80} color={theme.colors.primary} />
+        <Text style={[styles.name, { color: theme.colors.textPrimary }]}>Welcome</Text>
+        <Text style={[styles.email, { color: theme.colors.grey0 }]}>{user?.email}</Text>
+      </View>
 
-       <Button 
-              title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
-              onPress={() => setMode(mode === "light" ? "dark" : "light")}
-              buttonStyle={{backgroundColor: theme.colors.primary, borderRadius: 5 }}
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>User Info</Text>
+        <View style={styles.infoRow}>
+          <Text style={[styles.label, { color: theme.colors.grey1 }]}>User ID</Text>
+          <Text style={[styles.value, { color: theme.colors.textPrimary }]}>{user?.id}</Text>
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={[styles.label, { color: theme.colors.grey1 }]}>Email</Text>
+          <Text style={[styles.value, { color: theme.colors.textPrimary }]}>{user?.email}</Text>
+        </View>
+      </View>
+
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>Preferences</Text>
+        <Button
+          title={`Switch to ${mode === 'light' ? 'Dark' : 'Light'} Mode`}
+          onPress={toggleMode}
+          icon={{
+            name: mode === 'light' ? 'dark-mode' : 'light-mode',
+            type: 'material',
+            color: theme.colors.white,
+          }}
+          buttonStyle={{
+            backgroundColor: theme.colors.primary,
+            borderRadius: 10,
+            paddingVertical: 12,
+            marginTop: 10,
+          }}
         />
+      </View>
 
-    </View>
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
+        <Button
+          title="Sign Out"
+          onPress={signOut}
+          buttonStyle={{
+            backgroundColor: theme.colors.error,
+            borderRadius: 10,
+            paddingVertical: 12,
+          }}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
-// Shared styles for all components
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  header: {
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 40,
+    paddingBottom: 20,
   },
-  title: {
-    fontSize: 24,
+  name: {
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: '#666',
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    fontSize: 16,
-  },
-  button: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  signOutButton: {
-    backgroundColor: '#FF3B30',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  link: {
     marginTop: 10,
+  },
+  email: {
+    fontSize: 16,
+    marginTop: 4,
+  },
+  section: {
+    padding: 20,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    elevation: 1,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 14,
+  },
+  value: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

@@ -48,7 +48,7 @@ export default function SignupScreen() {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <Text h1 >Sign Up</Text>
+      <Text h1 style={{color: theme.colors.primary}} >Sign Up</Text>
       
 
       <Input

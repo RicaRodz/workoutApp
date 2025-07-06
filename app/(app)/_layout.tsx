@@ -31,7 +31,7 @@ export default function AppLayout() {
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.grey3,
         tabBarStyle: {
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.colors.container,
           borderRadius: 30,
           marginHorizontal: 15,
           marginBottom: 35,

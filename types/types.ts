@@ -43,19 +43,24 @@ export type RootStackParamList = {
   FoodLog: undefined;
 };
 
-// Theme colors (extends React Native Elements theme)
-export interface CustomTheme {
-  colors: {
-    primary: string;
-    secondary: string;
-    background: string;
-    surface: string;
-    text: string;
-    white: string;
-    grey0: string;
-    grey1: string;
-    grey2: string;
-    grey3: string;
-    grey4: string;
-  };
+export interface WorkoutData {
+  name: string;
+  duration: number;
+  exercises: number;
+  type: string;
+}
+
+export interface DaySchedule {
+  day: string;
+  dayShort: string;
+  isRest: boolean;
+  workout?: WorkoutData;
+}
+
+export interface WaterSchedule {
+  id: string;
+  time: string;
+  amount: number; // in ml
+  reminderEnabled: boolean;
+  isCompleted: boolean;
 }
