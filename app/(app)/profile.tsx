@@ -1,13 +1,16 @@
 // app/(app)/profile.tsx
+import { Button, Text, useTheme, useThemeMode } from '@rneui/themed';
 import { router } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../../providers/AuthProvider';
 
 export default function Profile() {
   const { user, signOut } = useAuth();
+  const {theme} = useTheme();
+  const { mode, setMode } = useThemeMode();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.colors.background }]}>
       <Text style={styles.title}>Profile</Text>
       <Text style={styles.subtitle}>Email: {user?.email}</Text>
       <Text style={styles.subtitle}>User ID: {user?.id}</Text>
@@ -19,6 +22,13 @@ export default function Profile() {
       <TouchableOpacity style={[styles.button, styles.signOutButton]} onPress={signOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
+
+       <Button 
+              title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+              onPress={() => setMode(mode === "light" ? "dark" : "light")}
+              buttonStyle={{backgroundColor: theme.colors.primary, borderRadius: 5 }}
+        />
+
     </View>
   );
 }

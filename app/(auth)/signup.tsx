@@ -1,4 +1,4 @@
-import { Button, Input, Text, } from "@rneui/themed";
+import { Button, Input, Text, useTheme, } from "@rneui/themed";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
@@ -8,6 +8,7 @@ import { supabase } from "../../lib/supabase";
 export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { theme } = useTheme();
 
   const handleSignup = async () => {
     if (!email || !password) {
@@ -31,13 +32,13 @@ export default function SignupScreen() {
           "Check Your Email",
           "Signup was successful, but you need to confirm your email before continuing."
         );
-        router.replace("/login");
+        router.replace("/(app)/home");
       } else { // user object came back
         Alert.alert(
           "Signup Success",
           "Account created. Please verify your email before logging in."
         );
-        router.replace("/login");
+        router.replace("/(app)/home");
       }
     } catch (err: any) {
       console.error("Unexpected error during signup", err);
@@ -46,7 +47,7 @@ export default function SignupScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <Text h1 >Sign Up</Text>
       
 
